@@ -29,7 +29,7 @@ mkdir -p $PROJECT_ROOT/deps.install
 # Build OpenSSL
 echo "Building OpenSSL..."
 cd "$PROJECT_ROOT/scripts"
-./build_openssl.sh >> build.log 2>&1
+./build_openssl.sh
 
 echo "Building libtorrent..."
 $PROJECT_ROOT/scripts/build_libtorrent.sh >> build.log 2>&1

@@ -39,7 +39,7 @@ build_arch() {
     cd "$PROJECT_ROOT/openssl"
     
     # Clean any previous build
-    make clean
+    make clean || true
     
     # Configure for the specific architecture
     ./Configure android-$arch -D__ANDROID_API__=$api_level \

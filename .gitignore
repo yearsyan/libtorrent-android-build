@@ -6,3 +6,4 @@ install/
 *.bz2
 tools/
 deps.install/
+*.zip

@@ -1,4 +1,4 @@
-name: Build and Release ffmpeg
+name: Build and Release libtorrent
 
 on:
   push:
@@ -62,11 +62,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # - name: Release to Maven
-    #   run: |
-    #     chmod +x publish.sh
-    #     ./publish.sh
-    #   env:
-    #     GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-    #     SONATYPE_AUTH_TOKEN: ${{ secrets.SONATYPE_AUTH_TOKEN }}
-    #     GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+    - name: Release to Maven
+      run: |
+        chmod +x publish.sh
+        ./publish.sh
+      env:
+        GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+        SONATYPE_AUTH_TOKEN: ${{ secrets.SONATYPE_AUTH_TOKEN }}
+        GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}

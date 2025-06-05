@@ -1,0 +1,8 @@
+build/
+boost_*
+logs
+build.log
+install/
+*.bz2
+tools/
+deps.install/

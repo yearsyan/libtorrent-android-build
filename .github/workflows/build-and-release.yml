@@ -1,0 +1,72 @@
+name: Build and Release ffmpeg
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Setup Android NDK
+      uses: nttld/setup-ndk@v1
+      id: setup-ndk
+      with:
+        ndk-version: 'r28b'
+        add-to-path: true
+
+    - name: Set up environment variables
+      run: |
+        echo "ANDROID_NDK=${{ steps.setup-ndk.outputs.ndk-path }}" >> $GITHUB_ENV
+
+
+    - name: Get version from tag
+      id: get_version
+      run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - name: Build libtorrent for all architectures
+      id: build_libtorrent
+      run: |
+        chmod +x build.sh
+        ./build.sh || {
+          echo "Build failed with exit code $?"
+          exit 1
+        }
+
+    - name: Prepare release files
+      id: release_files
+      run: |
+        echo "files<<EOF" >> $GITHUB_OUTPUT
+        for f in build/*.aar; do
+          echo "$f" >> $GITHUB_OUTPUT
+        done
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Create GitHub Release and Upload Assets
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.get_version.outputs.version }}
+        name: libtorrent ${{ steps.get_version.outputs.version }}
+        files: ${{ steps.release_files.outputs.files }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # - name: Release to Maven
+    #   run: |
+    #     chmod +x publish.sh
+    #     ./publish.sh
+    #   env:
+    #     GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+    #     SONATYPE_AUTH_TOKEN: ${{ secrets.SONATYPE_AUTH_TOKEN }}
+    #     GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}

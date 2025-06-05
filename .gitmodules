@@ -1,0 +1,7 @@
+[submodule "libtorrent"]
+	path = libtorrent
+	url = git@github.com:arvidn/libtorrent.git
+[submodule "openssl"]
+	path = openssl
+	url = git@github.com:openssl/openssl.git
+	branch = openssl-3.5

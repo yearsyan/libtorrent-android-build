@@ -7,6 +7,18 @@ set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
+# Set default OpenSSL version if not specified
+OPENSSL_VERSION=${OPENSSL_VERSION:-"3.5.0"}
+
+# Download and extract OpenSSL
+echo "Downloading OpenSSL version $OPENSSL_VERSION..."
+OPENSSL_DIR="$PROJECT_ROOT/openssl-$OPENSSL_VERSION"
+if [ ! -d "$OPENSSL_DIR" ]; then
+    wget "https://github.com/openssl/openssl/releases/download/openssl-$OPENSSL_VERSION/openssl-$OPENSSL_VERSION.tar.gz" -O "$PROJECT_ROOT/openssl-$OPENSSL_VERSION.tar.gz"
+    tar xzf "$PROJECT_ROOT/openssl-$OPENSSL_VERSION.tar.gz" -C "$PROJECT_ROOT"
+    rm "$PROJECT_ROOT/openssl-$OPENSSL_VERSION.tar.gz"
+fi
+OPENSSL_SOURCE_DIR="$OPENSSL_DIR"
 
 # Try to find Android NDK from various environment variables
 if [ -z "$ANDROID_NDK_ROOT" ]; then
@@ -36,7 +48,7 @@ build_arch() {
     echo "Building OpenSSL for $arch ($abi_name)..."
     
     # Navigate to OpenSSL directory
-    cd "$PROJECT_ROOT/openssl"
+    cd "$OPENSSL_SOURCE_DIR"
     
     # Clean any previous build
     make clean || true

@@ -3,6 +3,8 @@
 # Exit on error
 set -e
 
+export OPENSSL_VERSION="3.5.0"
+export BOOST_VERSION="1.85.0"
 # Get the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT=$SCRIPT_DIR
@@ -25,7 +27,7 @@ source "$SCRIPT_DIR/scripts/setup_cmake.sh"
 echo "Building Boost..."
 cd $PROJECT_ROOT
 mkdir -p $PROJECT_ROOT/deps.install
-./boost-build/build-android.sh --boost=1.85.0 --prefix=$PROJECT_ROOT/deps.install $ANDROID_NDK_ROOT
+./boost-build/build-android.sh --boost=$BOOST_VERSION --prefix=$PROJECT_ROOT/deps.install $ANDROID_NDK_ROOT
 # Build OpenSSL
 echo "Building OpenSSL..."
 cd "$PROJECT_ROOT/scripts"

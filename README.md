@@ -25,6 +25,12 @@ add_library(mylib SHARED mylib.cpp)
 target_link_libraries(mylib libtorrent::torrent-rasterbar)
 ```
 
+## Supported Architectures
+
+The library supports the following architectures:
+- `arm64-v8a`: ARM 64-bit
+- `x86_64`: x86 64-bit
+
 ## Build Yourself
 
 To build the library yourself, simply run:
@@ -39,11 +45,9 @@ The built AAR file will be output to `build/libtorrent-${version}.aar`.
 
 To publish the library to Maven Central, you need to set up the following environment variables:
 
-1. Export your GPG private key:
-```bash
-gpg --export-secret-keys --armor your-email@example.com > private.key
-export GPG_PRIVATE_KEY=$(cat private.key)
-```
+1. Generate and distribute your GPG public key:
+   - Follow the guide at https://central.sonatype.org/publish/requirements/gpg/#distributing-your-public-key
+   - This step is required for signing your artifacts
 
 2. Set your GPG password:
 ```bash
@@ -68,7 +72,7 @@ The repository includes GitHub Actions workflow for automatic building and publi
 2. Publish to Maven Central
 
 To set up the automation, add the following secrets in your GitHub repository settings:
-- `GPG_PRIVATE_KEY`: Your GPG private key
+- `GPG_PRIVATE_KEY`: Your GPG private key (obtain it by running `gpg --armor --export-secret-keys`)
 - `GPG_PASSWORD`: Your GPG password
 - `SONATYPE_AUTH_TOKEN`: Your Sonatype authentication token
 

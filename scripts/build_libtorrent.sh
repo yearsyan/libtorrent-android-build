@@ -7,7 +7,7 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 LIBTORRENT_DIR=$PROJECT_ROOT/libtorrent
 
 # Define all target architectures
-ARCHS=("x86" "x86_64" "armeabi-v7a" "arm64-v8a")
+ARCHS=("x86_64" "arm64-v8a")
 
 # Function to build for a specific architecture
 build_for_arch() {
@@ -73,6 +73,8 @@ build_for_arch() {
         -G Ninja \
         $LIBTORRENT_DIR
     cmake --build . --config Release --target install
+    cp -r $PROJECT_ROOT/deps.install/$ABI/include/openssl $PROJECT_ROOT/install/$ABI/include
+    cp -r $PROJECT_ROOT/deps.install/$ABI/include/boost-1_85/boost $PROJECT_ROOT/install/$ABI/include
 
     # Strip the shared library
     $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --strip-unneeded $PROJECT_ROOT/install/$ABI/lib/libtorrent-rasterbar.so

@@ -7,3 +7,4 @@ install/
 tools/
 deps.install/
 *.zip
+openssl-*

@@ -21,13 +21,13 @@ if [ -z "$NDK_VERSION" ]; then
 fi
 
 # Supported architectures
-ARCHS=("aarch64" "armv7a" "x86" "x86_64")
+ARCHS=("aarch64" "x86_64")
 
 # Architecture mapping
 declare -A ARCH_MAP
 ARCH_MAP["aarch64"]="arm64-v8a"
-ARCH_MAP["armv7a"]="armeabi-v7a"
-ARCH_MAP["x86"]="x86"
+# ARCH_MAP["armv7a"]="armeabi-v7a"
+# ARCH_MAP["x86"]="x86"
 ARCH_MAP["x86_64"]="x86_64"
 
 export BUILD_DIR_NAME="build"
@@ -56,7 +56,7 @@ coreLibraryDesugaringEnabled=false
 EOF
 
 # Update version in module.json
-MODULE_JSON="$PREFAB_WORK_DIR/prefab/modules/libtorrent/module.json"
+MODULE_JSON="$PREFAB_WORK_DIR/prefab/modules/torrent-rasterbar/module.json"
 if [[ -f "$MODULE_JSON" ]]; then
   sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" "$MODULE_JSON"
 fi
@@ -77,7 +77,7 @@ for arch in "${ARCHS[@]}"; do
   fi
   
   # Create architecture-specific directories
-  PREFAB_LIB_DIR="$PREFAB_WORK_DIR/prefab/modules/libtorrent/libs/android.$ANDROID_ABI"
+  PREFAB_LIB_DIR="$PREFAB_WORK_DIR/prefab/modules/torrent-rasterbar/libs/android.$ANDROID_ABI"
   JNI_LIB_DIR="$PREFAB_WORK_DIR/jni/$ANDROID_ABI"
   PREFAB_INCLUDE_DIR="$PREFAB_LIB_DIR/include"
   

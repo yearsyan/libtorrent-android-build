@@ -22,7 +22,7 @@ dependencies {
 find_package(libtorrent REQUIRED CONFIG)
 
 add_library(mylib SHARED mylib.cpp)
-target_link_libraries(mylib libtorrent::libtorrent)
+target_link_libraries(mylib libtorrent::torrent-rasterbar)
 ```
 
 ## Build Yourself

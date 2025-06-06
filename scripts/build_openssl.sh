@@ -77,9 +77,9 @@ build_arch() {
 }
 
 # Build for all architectures
-build_arch "arm" "armeabi-v7a"
+# build_arch "arm" "armeabi-v7a"
 build_arch "arm64" "arm64-v8a"
-build_arch "x86" "x86"
+# build_arch "x86" "x86"
 build_arch "x86_64" "x86_64"
 
 echo "OpenSSL has been built for all architectures in $PROJECT_ROOT/build/deps.install directory"

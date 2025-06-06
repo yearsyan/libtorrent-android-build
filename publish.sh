@@ -3,6 +3,17 @@
 # Exit on error
 set -e
 
+# Import GPG private key if GPG_PRIVATE_KEY is set
+if [[ -n "${GPG_PRIVATE_KEY:-}" ]]; then
+  echo "=== Importing GPG private key ==="
+  echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+  if [[ $? -ne 0 ]]; then
+    echo "Error: Failed to import GPG private key"
+    exit 1
+  fi
+  echo "GPG private key imported successfully"
+fi
+
 # Configuration
 AUTH_TOKEN="${SONATYPE_AUTH_TOKEN}"
 if [ -z "$AUTH_TOKEN" ]; then
